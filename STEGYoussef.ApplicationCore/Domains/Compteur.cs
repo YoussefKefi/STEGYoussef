@@ -19,8 +19,8 @@ namespace STEGYoussef.ApplicationCore.Domains
         public float Voltage { get; set; }
 
         public long Index { get; set; }
-
-        public virtual Abonne Abonne { get; set; }
+        public string AbonneCIN { get; set; }
+        public virtual Abonne? Abonne { get; set; }
 
         public virtual IList<Facture> Factures { get; set; }
     }

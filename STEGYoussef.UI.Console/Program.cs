@@ -1,56 +1,51 @@
-﻿using STEGYoussef.ApplicationCore.Domains;
-using STEGYoussef.Infrastructure;
-using Microsoft.EntityFrameworkCore;
+﻿using System.ComponentModel.DataAnnotations;
 using STEGYoussef.ApplicationCore.Domains;
 using STEGYoussef.Infrastructure;
+using STEGYoussef.ApplicationCore.Domains;
 
-namespace STEG.UI.Console
+
+var context = new STEGContext();
+
+//context.Database.EnsureDeleted();
+//context.Database.EnsureCreated();
+
+var abonne = new Abonne
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            System.Console.WriteLine("Initialisation de la base de données STEG...");
+    CIN = "12345678",
+    Nom = "Kefi",
+    Prenom = "Youssef"
+};
+context.Abonnes.Add(abonne);
 
-            // Créer une instance du contexte qui utilise la chaîne de connexion définie dans OnConfiguring
-            STEGContext context = new STEGContext();
+var compteur = new Compteur
+{
+    Reference = "CMP001",
+    Type = TypeCompteur.Industriel,
+    Voltage = 220,
+    Index = 1500,
+    AbonneCIN = abonne.CIN
+};
+context.Compteurs.Add(compteur);
 
-            // Forcer la création de la base de données
-            context.Database.EnsureDeleted(); // Supprime d'abord la base si elle existe
-            context.Database.EnsureCreated(); // Crée la base de données avec le schéma défini
+var periode = new Periode
+{
+    Debut = new DateTime(2025, 1, 1),
+    Fin = new DateTime(2025, 1, 31)
+};
+context.Periodes.Add(periode);
+context.SaveChanges(); // ythabet periode.Id mawjouda
 
-            System.Console.WriteLine("Base de données STEGYoussefKefi créée avec succès!");
+var facture = new Facture
+{
+    CompteurKey = compteur.Reference,
+    PeriodeKey = periode.Id,
+    Date = new DateTime(2025, 1, 15),
+    Montant = 100.5,
+    ConsommationKWH = 50,
+    Payment = false
+};
+context.Factures.Add(facture);
 
-            // Ajouter des données de test
-            var abonne = new Abonne
-            {
-                CIN = "12345678",
-                Nom = "Kefi",
-                Prenom = "Youssef"
-            };
+context.SaveChanges();
 
-            var compteur = new Compteur
-            {
-                Reference = "COMP001",
-                Type = TypeCompteur.Domestique,
-                Voltage = 220.0f,
-                Index = 1000,
-                Abonne = abonne
-            };
-
-            var periode = new Periode
-            {
-                Debut = new DateTime(2025, 1, 1),
-                Fin = new DateTime(2025, 1, 31)
-            };
-
-            context.Abonnes.Add(abonne);
-            context.Compteurs.Add(compteur);
-            context.Periodes.Add(periode);
-
-            context.SaveChanges();
-
-            System.Console.WriteLine("Données de test ajoutées avec succès!");
-        }
-    }
-}
+Console.WriteLine("Données enregistrées.");

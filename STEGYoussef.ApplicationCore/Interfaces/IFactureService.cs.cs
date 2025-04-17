@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using STEGYoussef.ApplicationCore.Domains;
 
 
-namespace AM.ApplicationCore.Interfaces
+namespace STEGYoussef.ApplicationCore.Interfaces
 {
     public interface IFactureService
     {
