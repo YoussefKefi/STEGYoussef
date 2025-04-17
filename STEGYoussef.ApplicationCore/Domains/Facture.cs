@@ -10,8 +10,8 @@ namespace STEGYoussef.ApplicationCore.Domains
 
         public double Montant { get; set; }
 
-        [Range(0, int.MaxValue, ErrorMessage = "La consommation doit être un nombre positif")]
-        public int ConsommationKWH { get; set; }
+        [Range(0, double.MaxValue, ErrorMessage = "La consommation doit être un nombre positif")]
+        public double ConsommationKWH { get; set; }
 
         public bool Payment { get; set; }
 

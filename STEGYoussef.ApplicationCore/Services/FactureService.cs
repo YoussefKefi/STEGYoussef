@@ -32,7 +32,7 @@ namespace STEGYoussef.ApplicationCore.Services
                 .ToDictionary(c => c.Reference);
 
             return ListFactures
-                .Where(f => !f.Payment && compteursDict.ContainsKey(f.CompteurKey)) // Fixed: Changed 'CompteurReference' to 'CompteurKey'  
+                .Where(f => !f.Payment && compteursDict.ContainsKey(f.CompteurKey)) 
                 .ToList();
         }
 
@@ -46,16 +46,16 @@ namespace STEGYoussef.ApplicationCore.Services
                 return 0;
 
             return ListFactures
-                .Where(f => compteursDict.ContainsKey(f.CompteurKey)) // Fixed: Changed 'CompteurReference' to 'CompteurKey'  
+                .Where(f => compteursDict.ContainsKey(f.CompteurKey))  
                 .Average(f => f.ConsommationKWH);
         }
 
         public IList<Abonne> GetTop3ConsommateursParPeriode(int periodeKey)
         {
             var joinedData = ListFactures
-                .Where(f => f.PeriodeKey == periodeKey) // Fixed: Changed 'PeriodeId' to 'PeriodeKey'  
+                .Where(f => f.PeriodeKey == periodeKey) 
                 .Join(ListCompteurs,
-                    facture => facture.CompteurKey, // Fixed: Changed 'CompteurReference' to 'CompteurKey'  
+                    facture => facture.CompteurKey,   
                     compteur => compteur.Reference,
                     (facture, compteur) => new { facture.ConsommationKWH, compteur.AbonneCIN })
                 .Join(ListAbonnes,
